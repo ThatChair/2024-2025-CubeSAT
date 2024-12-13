@@ -18,11 +18,11 @@ import time
 import board
 from adafruit_lsm6ds.lsm6dsox import LSM6DSOX as LSM6DS
 from adafruit_lis3mdl import LIS3MDL
-from git import Repo
+#from git import Repo
 from picamera2 import Picamera2
 
 #VARIABLES
-THRESHOLD = 0      #Any desired value from the accelerometer
+THRESHOLD = 20      #Any desired value from the accelerometer
 REPO_PATH = "/home/pi/Documents/Backbranch/2024-2025-CubeSAT"     #Your github repo path: ex. /home/pi/FlatSatChallenge
 FOLDER_PATH = "/FlatSat/Images"   #Your image folder path in your GitHub repo: ex. /Images
 
@@ -33,23 +33,23 @@ mag = LIS3MDL(i2c)
 picam2 = Picamera2()
 
 
-def git_push():
-    """
-    This function is complete. Stages, commits, and pushes new images to your GitHub repo.
-    """
-    try:
-        repo = Repo(REPO_PATH)
-        origin = repo.remote('origin')
-        print('added remote')
-        origin.pull()
-        print('pulled changes')
-        repo.git.add(REPO_PATH + FOLDER_PATH)
-        repo.index.commit('New Photo')
-        print('made the commit')
-        origin.push()
-        print('pushed changes')
-    except:
-        print('Couldn\'t upload to git')
+# def git_push():
+#     """
+#     This function is complete. Stages, commits, and pushes new images to your GitHub repo.
+#     """
+#     try:
+#         repo = Repo(REPO_PATH)
+#         origin = repo.remote('origin')
+#         print('added remote')
+#         origin.pull()
+#         print('pulled changes')
+#         repo.git.add(REPO_PATH + FOLDER_PATH)
+#         repo.index.commit('New Photo')
+#         print('made the commit')
+#         origin.push()
+#         print('pushed changes')
+#     except:
+#         print('Couldn\'t upload to git')
 
 
 def img_gen(name):
@@ -72,10 +72,12 @@ def take_photo():
     while True:
         accelx, accely, accelz = accel_gyro.acceleration
 
-        if accel_gyro.acceleration > THRESHOLD: #CHECKS IF READINGS ARE ABOVE THRESHOLD
+        if abs(accelx) > THRESHOLD or abs(accely) > THRESHOLD: #CHECKS IF READINGS ARE ABOVE THRESHOLD
+            print("TAKING PHOTO!!!!!")
             time.sleep(2) #PAUSE
             name = img_gen("GrantP")     #First Name, Last Initial  ex. MasonM
-            picam2.start_and_capture_file(name) #TAKE PHOTO
+            picam2.set_controls({"ExposureTime": 10, "AnalogueGain": 2.0})
+            picam2.start_and_capture_file(name, show_preview = False, ) #TAKE PHOTO
             time.sleep(2)
             #PUSH PHOTO TO GITHUB
         
@@ -83,8 +85,7 @@ def take_photo():
 
 
 def main():
-    print(accel_gyro.acceleration)
-    #take_photo()
+    take_photo()
 
 
 if __name__ == '__main__':
