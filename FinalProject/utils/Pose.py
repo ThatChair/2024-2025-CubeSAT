@@ -10,3 +10,6 @@ class Pose:
 
     def __sub__(self, other):
         return Pose(self.x - other.x, self.y - other.y, self.z - other.z, self.time - other.time)
+
+    def __str__(self):
+        return f"Pose(x={self.x}, y={self.y}, z={self.z}, time={self.time})"
