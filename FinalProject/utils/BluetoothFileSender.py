@@ -43,7 +43,7 @@ class BluetoothFileSender:
         :param file_paths: List of absolute paths to send.
         """
         cmd = [
-            "obexftp"
+            "obexftp",
             "--bluetooth", self.device_address,
             "--channel", str(self.channel),
             "--uuid none",
