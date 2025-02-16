@@ -5,7 +5,7 @@ import shlex
 class BluetoothFileSender:
 
     def __init__(self, device_address: str, channel:int = None):
-        self.address = device_address
+        self.device_address = device_address
         self.channel = channel
 
         if self.channel is None:
