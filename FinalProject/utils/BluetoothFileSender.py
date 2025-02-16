@@ -44,7 +44,7 @@ class BluetoothFileSender:
         """
         cmd = [
             "obexftp"
-            "--bluetooth", self.device_adress,
+            "--bluetooth", self.device_address,
             "--channel", str(self.channel),
             "--uuid none",
             "--nopath",
