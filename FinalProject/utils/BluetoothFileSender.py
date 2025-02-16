@@ -4,9 +4,14 @@ import shlex
 
 class BluetoothFileSender:
 
-    def __init__(self, device_address, channel=None):
+    def __init__(self, device_address: str, channel:int = None):
         self.address = device_address
-        self.channel = self.discover_obex_channel()
+        self.channel = channel
+
+        if self.channel is None:
+            self.channel = self.discover_obex_channel()
+            if self.channel is None:
+                raise RuntimeError("No OBEX Object Push service found. Please open \"Recieve A File\" menu on reciving windows device and try finding channel again")
         
     def discover_obex_channel(self):
 
@@ -31,7 +36,6 @@ class BluetoothFileSender:
                 match = channel_pattern.search(line)
                 if match:
                     return match.group(1)
-        print("No OBEX Object Push service found. Please open \"Recieve A File\" menu on reciving windows device and try finding channel again")
         return None
 
     def send_files(self, file_paths):
