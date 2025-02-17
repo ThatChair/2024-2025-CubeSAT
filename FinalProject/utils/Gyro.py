@@ -37,6 +37,9 @@ class Gyro:
 
     def update(self, current_time):
         accel_x, accel_y, accel_z = self.accel_gyro.acceleration
+        accel_x -= self.accel_offset.x
+        accel_y -= self.accel_offset.y
+        accel_z -= self.accel_offset.z
         self.accel = Pos(accel_x, accel_y, accel_z)
 
         self.vel = self.accel_integrator.update(self.accel, current_time)
