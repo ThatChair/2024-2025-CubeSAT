@@ -5,6 +5,7 @@ from adafruit_lis3mdl import LIS3MDL
 
 from FinalProject.utils.Integrator3d import Integrator3d
 from FinalProject.utils.Pos import Pos
+from FinalProject.utils.misc import *
 
 #imu and camera initialization
 i2c = board.I2C()
@@ -14,6 +15,9 @@ mag = LIS3MDL(i2c)
 pos = Pos(0.0, 0.0, 0.0, time.time())
 vel_integrator = Integrator3d(pos)
 accel_integrator = Integrator3d(pos)
+
+#bluetooth receiving initialization
+start_receiving("/home/pi/Documents/Backbranch/2024-2025-CubeSAT/FinalProject/uplinked_files")
 
 def update_pose():
     accelx, accely, accelz = accel_gyro.acceleration
