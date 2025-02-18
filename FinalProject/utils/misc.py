@@ -9,8 +9,8 @@ def calculate_average(previous_average, new_value, size):
 def start_server_receiving_at(directorypath:str):
     cmd = ["/usr/libexec/bluetooth/obexd","-r", directorypath, "-a"]
 
-    process = subprocess.Popen(cmd, capture_output=True, text=True)
-    
+    process = subprocess.Popen(cmd)
+
     return process
 
 def restart_bluetooth():
