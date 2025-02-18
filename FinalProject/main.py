@@ -12,7 +12,7 @@ mag = LIS3MDL(i2c)
 gyro = Gyro(i2c)
 
 #bluetooth receiving initialization
-start_receiving("/home/pi/Documents/Backbranch/2024-2025-CubeSAT/FinalProject/uplinked_files")
+btserver = start_server_receiving_at("/home/pi/Documents/Backbranch/bluetooth_receivied")
 
 def main():
     gyro.calibrate()

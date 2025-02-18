@@ -6,13 +6,15 @@ def calculate_average(previous_average, new_value, size):
     else:
         return previous_average + (1 / size) * (new_value - previous_average)
 
-def start_receiving(directorypath:str):
-    cmd = ["obexpushd","-B","-o", directorypath]
+def start_server_receiving_at(directorypath:str):
+    cmd = ["/usr/libexec/bluetooth/obexd","-r", directorypath, "-a"]
 
-    result = subprocess.run(cmd, capture_output=True, text=True)
+    process = subprocess.Popen(cmd, capture_output=True, text=True)
 
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to run obexpushd: {result.stderr.strip()}")
+    if process.returncode != 0:
+        raise RuntimeError(f"Failed to start obexd: {process.stderr.strip()}")
+    
+    return process
 
 def restart_bluetooth():
     cmd = ["sudo", "systemctl","restart","bluetooth"]
@@ -21,3 +23,7 @@ def restart_bluetooth():
 
     if result.returncode != 0:
         raise RuntimeError(f"Failed to restart Bluetooth: {result.stderr.strip()}")
+
+def stop_server_receiving(process):
+    process.terminate()
+    process.wait()
