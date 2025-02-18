@@ -10,9 +10,6 @@ def start_server_receiving_at(directorypath:str):
     cmd = ["/usr/libexec/bluetooth/obexd","-r", directorypath, "-a"]
 
     process = subprocess.Popen(cmd, capture_output=True, text=True)
-
-    if process.returncode != 0:
-        raise RuntimeError(f"Failed to start obexd: {process.stderr.strip()}")
     
     return process
 
