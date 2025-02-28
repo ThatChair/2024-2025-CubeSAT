@@ -34,10 +34,10 @@ def process_edges(image: Image) -> Image:
     image.putdata(new_data)
     return image
 
-after = Image.open("C:\\Users\\grant\\OneDrive\Desktop\\2024-2025-CubeSAT\\2024-2025-CubeSAT\\FinalProject\\test_files\\Milton_After.png")
+"""after = Image.open("C:\\Users\\grant\\OneDrive\Desktop\\2024-2025-CubeSAT\\2024-2025-CubeSAT\\FinalProject\\test_files\\Milton_After.png")
 edge_after = process_edges(find_edges(after.filter(ImageFilter.SHARPEN)).filter(ImageFilter.SMOOTH).filter(ImageFilter.BLUR).filter(ImageFilter.BLUR).filter(ImageFilter.BLUR))
 
 out = Image.alpha_composite(after.convert("RGBA"), edge_after)
 out.putalpha(255)
-out.show()
+out.show()"""
 
